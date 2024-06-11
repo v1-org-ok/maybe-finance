@@ -8,7 +8,6 @@
 /.bundle
 
 # Ignore all environment files (except templates).
-/.env*
 !/.env*.erb
 !.env.example
 
@@ -53,5 +52,3 @@ compose-dev.yaml
 
 # Ignore GCP keyfile
 gcp-storage-keyfile.json
-
-coverage

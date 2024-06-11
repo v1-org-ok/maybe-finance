@@ -2,6 +2,7 @@ if ENV["COVERAGE"]
   require "simplecov"
   SimpleCov.start "rails" do
     enable_coverage :branch
+    puts "Running tests with coverage enabled"
   end
 end
 
