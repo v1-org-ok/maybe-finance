@@ -39,4 +39,22 @@ class Settings::ProfilesControllerTest < ActionDispatch::IntegrationTest
     assert_not User.find(@admin.id).active?
     assert_enqueued_with(job: UserPurgeJob, args: [ @admin ])
   end
+
+  test "update user attributes successfully" do
+    patch settings_profile_url, params: { user: { first_name: "NewFirstName", last_name: "NewLastName" } }
+    assert_redirected_to settings_profile_url
+    @user.reload
+    assert_equal "NewFirstName", @user.first_name
+    assert_equal "NewLastName", @user.last_name
+  end
+
+  test "update family attributes" do
+    family = families(:dylan_family)
+    @user.update(family: family)
+
+    patch settings_profile_url, params: { user: { family_attributes: { name: "NewFamilyName" } } }
+    assert_redirected_to settings_profile_url
+    family.reload
+    assert_equal "NewFamilyName", family.name
+  end
 end

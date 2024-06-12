@@ -69,4 +69,5 @@ group :test do
   gem "webmock"
   gem "climate_control"
   gem "simplecov", require: false
+  gem "rails-controller-testing"
 end
