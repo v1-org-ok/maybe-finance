@@ -1,20 +1,21 @@
 services:
   app:
-    image: ghcr.io/maybe-finance/maybe:latest
+    build: .
+    command: ["bundle", "exec", "rspec"]
     volumes:
+      - .:/usr/src/app
       - ./storage:/rails/storage
-    ports:
-      - 127.0.0.1:3000:3000
-    restart: unless-stopped
     env_file:
       - .env
     environment:
-      SELF_HOSTING_ENABLED: "true"  # Changed to string
+      SELF_HOSTING_ENABLED: "true"
       DB_HOST: postgres
-      RAILS_FORCE_SSL: "false"  # Changed to string
-      RAILS_ASSUME_SSL: "false"  # Changed to string
+      RAILS_FORCE_SSL: "false"
+      RAILS_ASSUME_SSL: "false"
       POSTGRES_USER: postgres
       GOOD_JOB_EXECUTION_MODE: async
+      RAILS_ENV: "test"
+      BUNDLE_WITHOUT: ""
     depends_on:
       postgres:
         condition: service_healthy
@@ -31,10 +32,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-maybe_production}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
 
 volumes:
   postgres-data:

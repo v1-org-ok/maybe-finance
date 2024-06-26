@@ -31,3 +31,7 @@ export COVERAGE=true
 
 # keep the database running while using below command
 bin/rails test
+
+---------------------------
+after chaning docker file for test
+docker-compose up --abort-on-container-exit app
